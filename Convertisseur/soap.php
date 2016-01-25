@@ -2,24 +2,29 @@
 <html>
 <head>
     <title>SOAP JavaScript Client Test</title>
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js">
-    </script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+
 </head>
-    <?php include('loadSelect.php') ?>
+<body>
+    <?php include_once ('loadSelect.php') ?>
     <input type="text" id="valueToChange">
-    <input type="submit" onclick="soap()">
+    <input class ="btn btn-primary" type="submit" onclick="soap()">
+    
     <div id='result'>
     
     </div>
     <script>
     function soap() {
-        $getValue = document.getElementById('devise1').value + '|' + document.getElementById('devise2').value + '|' + document.getElementById('valueToChange').value; 
+        
+        var devise1 = $('#devise1').val();
+        var devise2 = $('#devise2').val();
+        var valueToChange = $('#valueToChange').val(); 
         $.ajax({
 
             url : 'client.php',
             
             //data: 'data= ' + $getValue.value,
-            data: 'data=' + $getValue,
+            data: 'devise1=' + devise1 + '&devise2=' + devise2 + '&valueToChange='+valueToChange,
 
             type : 'GET',
 
@@ -27,7 +32,7 @@
 
             success : function(code_html, statut){ // code_html contient le HTML renvoyé
 
-                $('#result').text('code_html');
+                $('#result').text(code_html);
 
             }
 
@@ -37,3 +42,4 @@
 
     </script>
 </body>
+</html>

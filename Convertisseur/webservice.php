@@ -1,34 +1,49 @@
 <?php
 
-//
-
-//include('Conversion.php');
-
 try {
     $server = new SoapServer(null, array(
-        'uri' => 'webservice.php'
+        'uri' => 'http://localhost/tpwebservice/convertisseur/webservice.php'
     ));
-    $server->addFunction('convert');
+
+    $server->addFunction('convertisseur');
     $server->handle();
 } catch (Exception $e) {
     echo "Exception: " . $e;
 }
 
-function convert($data)
+function convertisseur($data)
 {    
-	$explode = explode('|', $data);
-	if ($explode[0] == $explode[1]){
-		return round($explode[2], 2);
+    include_once ('bdd.php');
+    $devise1 = $data[0];
+    $devise2 = $data[1];
+    //$bdd = new PDO('mysql:host=localhost;dbname=conversion;charset=utf8', 'root', '');
+    
+    $reponse = $bdd->query("SELECT Taux FROM monnaie WHERE ID =" . $devise1);
+    //return "SELECT Taux FROM monnaie WHERE ID =" . $devise1;
+    $donnees = $reponse->fetch();
+    $taux1 = $donnees['Taux'];
+    $reponse->closeCursor();
+    
+    $reponse = $bdd->query("SELECT Taux FROM monnaie WHERE ID =" . $devise2);
+    $donnees = $reponse->fetch();
+    $taux2 = $donnees['Taux'];
+    $reponse->closeCursor();
+    
+    $valueToChange = $data[2];
+
+    
+	if ($taux1 == $taux2){
+		return round($valueToChange, 2);
 	}
 	else {
-		if ($explode[0] == 1) {
-			return round($explode[2] * $explode[1], 2);
+		if ($taux1 == 1) {
+			return round($valueToChange * $taux2, 2);
 		}
-		elseif ($explode[1] == 1) {
-			return round($explode[2] / $explode[0], 2);
+		elseif ($taux2 == 1) {
+			return round($valueToChange / $taux1, 2);
 		}
 		else {
-			return round(($explode[2] / $explode[0]) * $explode[1], 2);
+			return round(($valueToChange / $taux1) * $taux2, 2);
 		}
 	}
 }
