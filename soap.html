@@ -1,3 +1,4 @@
+<<<<<<< .mine
 
 <html>
 <head>
@@ -58,3 +59,65 @@
 
     </script>
 </body>
+=======
+<?php ?>
+<html>
+<head>
+    <title>SOAP JavaScript Client Test</title>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js">
+    </script>
+</head>
+
+<body>
+    <FORM>
+	    <SELECT name="nom" size="1" onchange="soap(this);">
+		    <OPTION>lundi</OPTION>
+		    <OPTION>mardi</OPTION>
+		    <OPTION>mercredi</OPTION>
+		    <OPTION>jeudi</OPTION>
+		    <OPTION>vendredi</OPTION>
+	    </SELECT>
+    </FORM>
+    
+    
+    
+    <div id='rihanna'>
+    
+    </div>
+    
+    
+    <script>
+    function soap($this) {
+        $.ajax({
+
+            url : 'http://localhost/soap/client.php',
+            
+            data: 'data=' + $this.value,
+
+            type : 'GET',
+
+            dataType : 'text', // On désire recevoir du HTML
+
+            success : function(code_html, statut){ // code_html contient le HTML renvoyé
+
+                $('#rihanna').text(code_html);
+
+            }
+
+         });
+    }
+
+    </script>
+</body>
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> .theirs

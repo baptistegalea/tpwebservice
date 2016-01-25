@@ -20,25 +20,28 @@
     
     
     
-
-    
-    -->
-
-    <?php include('loadSelect.php') ?>
-    <input type="text" id="valueToChange">
-    <input type="submit" name="submit" id="submit" value="Convertir" onclick="soap()">
-    <div id='result'>
+    <div id='rihanna'>
     
     </div>
+    
+    -->
+    <?php 
+        include('bdd.php');
+        $reponse = $bdd->query('SELECT * FROM monnaie');
+        while ($donnees = $reponse->fetch())
+        {
+            echo $donnees['Libelle'] . '<br />';
+        }
+
+        $reponse->closeCursor();
+    ?>
     <script>
-    function soap() {
-        $getValue = document.getElementById('devise1').value + '|' + document.getElementById('devise2').value + '|' + document.getElementById('valueToChange').value; 
+    function soap($this) {
         $.ajax({
 
             url : 'http://localhost/client.php',
             
-            //data: 'data= ' + $getValue.value,
-            data: 'data=' + $getValue,
+            data: 'data=' + $this.value,
 
             type : 'GET',
 
@@ -46,12 +49,11 @@
 
             success : function(code_html, statut){ // code_html contient le HTML renvoyé
 
-                $('#result').text(code_html);
+                $('#rihanna').text(code_html);
 
             }
 
          });
-
     }
 
     </script>
